@@ -1,0 +1,26 @@
+# build the container image
+- name: "gcr.io/cloud-builders/docker"
+args: ["build", "-t", "gcr.io/swapna-test-project/angular-dummy", "."]
+# push the container image to Container Registry
+- name: "gcr.io/cloud-builders/docker"
+args: ["push", "gcr.io/swapna-test-project/angular-dummy"]
+# Deploy container image to Cloud Run
+- name: "gcr.io/cloud-builders/gcloud"
+args:
+[
+"beta",
+"run",
+"deploy",
+"--allow-unauthenticated",
+"swapna-test-project",
+"--image",
+"gcr.io/swapna-test-project/angular-dummy",
+"--region",
+"us-central1",
+"--platform",
+"managed",
+"--memory",
+"128Mi"
+]
+images:
+- gcr.io/swapna-test-project/angular-dummy
